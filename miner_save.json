@@ -1,10 +1,10 @@
 {
-  "crystals": 0,
-  "crystals_per_click": 1,
-  "crystals_per_second": 0,
+  "coins": 9,
+  "coins_per_click": 1,
+  "coins_per_second": 0,
   "pickaxe_level": 1,
   "miner_level": 0,
   "pickaxe_price": 25,
   "miner_price": 50,
-  "time": 142
+  "time": 146
 }

@@ -16,9 +16,9 @@ def load_data():
 
 def save_data():
     data_new = {
-        "crystals": crystals,
-        "crystals_per_click": crystals_per_click,
-        "crystals_per_second": crystals_per_second,
+        "coins": coins,
+        "coins_per_click": coins_per_click,
+        "coins_per_second": coins_per_second,
         "pickaxe_level": pickaxe_level,
         "miner_level": miner_level,
         "pickaxe_price": pickaxe_price,
@@ -31,8 +31,8 @@ def save_data():
 
 
 def update_labels():
-    crystals_label.configure(text=f"💎кристалы: {crystals}")
-    stats_label.configure(text=(f"⛏️ Сила кирки{crystals_per_click}\n"
+    coins_label.configure(text=f"🪙монеты: {coins}")
+    stats_label.configure(text=(f"⛏️ Сила кирки{coins_per_click}\n"
                                 f"🔨 Уровень кирки:{pickaxe_level}\n"
                                 f"👷 Уровень шахтёра:{miner_level}"))
     pickaxe_button.configure(text=f"Улучшить кирку\nЦена:{pickaxe_price}💎")
@@ -40,9 +40,9 @@ def update_labels():
 
 
 def time_counter():
-    global time,crystals
+    global time,coins
     time += 1
-    crystals += crystals_per_second
+    coins += coins_per_second
     save_data()
     update_labels()
     timer_label.configure(text=f"Время в пещере:{time}")
@@ -50,31 +50,31 @@ def time_counter():
 
 
 def mine_crystal():
-    global crystals
-    crystals += crystals_per_click
-    log_label.configure(text=f"Вы добыли {crystals_per_click} кристаллов")
+    global coins
+    coins += coins_per_click
+    log_label.configure(text=f"Вы добыли {coins_per_click} кристаллов")
     update_labels()
     save_data()
 
 
 def buy_pickaxe():
-    global crystals_per_click,crystals,pickaxe_level,pickaxe_price
-    if crystals >= pickaxe_price:
+    global coins_per_click,coins,pickaxe_level,pickaxe_price
+    if coins >= pickaxe_price:
         print("покупка")
-        crystals -= pickaxe_price
+        coins -= pickaxe_price
         pickaxe_level += 1
-        crystals_per_click += 1
+        coins_per_click += 1000000
         pickaxe_price += 25
         save_data()
         update_labels()
 
 def buy_miner():
-    global crystals_per_second,crystals,miner_level,miner_price
-    if crystals >= miner_price:
+    global coins_per_second,coins,miner_level,miner_price
+    if coins >= miner_price:
         print("покупка майнера")
-        crystals -= miner_price
+        coins -= miner_price
         miner_level += 1
-        crystals_per_second += 1
+        coins_per_second += 1
         miner_price += 50
         save_data()
         update_labels()
@@ -83,10 +83,10 @@ def buy_miner():
 
 
 def reset_game():
-    global crystals,crystals_per_click,crystals_per_second,pickaxe_level,miner_level,pickaxe_price,miner_price,time
-    crystals = 0
-    crystals_per_click = 1
-    crystals_per_second = 0
+    global coins,coins_per_click,coins_per_second,pickaxe_level,miner_level,pickaxe_price,miner_price,time
+    coins = 0
+    coins_per_click = 1
+    coins_per_second = 0
     pickaxe_level = 1
     miner_level = 0
     pickaxe_price = 25
@@ -98,9 +98,9 @@ def reset_game():
 
 
 data = load_data()
-crystals = data["crystals"]
-crystals_per_click = data["crystals_per_click"]
-crystals_per_second = data["crystals_per_second"]
+coins = data["coins"]
+coins_per_click = data["coins_per_click"]
+coins_per_second = data["coins_per_second"]
 pickaxe_level = data["pickaxe_level"]
 miner_level = data["miner_level"]
 pickaxe_price = data["pickaxe_price"]
@@ -111,16 +111,17 @@ time = data["time"]
 title_label = ctk.CTkLabel(root,text="⛏️кликер шахтер",font=("Arial",32,"bold"))
 title_label.pack(pady=20)
 
+coins_label = ctk.CTkLabel(root,text="🪙монеты: 0",font=("Arial",24,"bold"))
+coins_label.pack(pady=10)
+
 timer_label = ctk.CTkLabel(root,text=f"Время в пещере:{time}",font=("Arial",28,"bold"))
 timer_label.pack(pady=0)
 
-crystals_label = ctk.CTkLabel(root,text="💎кристалы: 0",font=("Arial",24,"bold"))
-crystals_label.pack(pady=10)
 
 stats_label = ctk.CTkLabel(root,text="характеристика",font=("Arial",16),justify="left")
 stats_label.pack(pady=10)
 
-mine_button = ctk.CTkButton(root,text="Добыть кристалл",font=("Arial",22,"bold"),width=300,height=70,command=mine_crystal)
+mine_button = ctk.CTkButton(root,text="Добыть ресурсы",font=("Arial",22,"bold"),width=300,height=70,command=mine_crystal)
 mine_button.pack(pady=20)
 
 pickaxe_button = ctk.CTkButton(root,text="Улучшить кирку",font=("Arial",22,"bold"),width=300,height=60,command=buy_pickaxe)
